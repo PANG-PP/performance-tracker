@@ -12,6 +12,11 @@ type GasResponse<T> = {
   error?: string;
 };
 
+export type InitialData = {
+  records: WorkRecord[];
+  categories: Category[];
+};
+
 async function gasGet<T>(action: string): Promise<T> {
   const baseUrl = env("GOOGLE_APPS_SCRIPT_URL");
   const secret = env("APPS_SCRIPT_SECRET");
@@ -46,6 +51,10 @@ async function gasPost<T>(action: string, data?: unknown): Promise<T> {
   return payload.data as T;
 }
 
+export async function getInitialData(): Promise<InitialData> {
+  return gasGet<InitialData>("getInitialData");
+}
+
 export async function ensureDatabase() {
   await gasPost<{ ready: boolean }>("ensureDatabase");
 }
@@ -54,12 +63,12 @@ export async function getRecords(): Promise<WorkRecord[]> {
   return gasGet<WorkRecord[]>("getRecords");
 }
 
-export async function appendRecord(record: WorkRecord) {
-  await gasPost<WorkRecord>("appendRecord", record);
+export async function appendRecord(record: WorkRecord): Promise<WorkRecord> {
+  return gasPost<WorkRecord>("appendRecord", record);
 }
 
-export async function updateRecord(record: WorkRecord) {
-  await gasPost<WorkRecord>("updateRecord", record);
+export async function updateRecord(record: WorkRecord): Promise<WorkRecord> {
+  return gasPost<WorkRecord>("updateRecord", record);
 }
 
 export async function deleteRecord(id: string) {
@@ -70,12 +79,12 @@ export async function getCategories(): Promise<Category[]> {
   return gasGet<Category[]>("getCategories");
 }
 
-export async function appendCategory(category: Category) {
-  await gasPost<Category>("appendCategory", category);
+export async function appendCategory(category: Category): Promise<Category> {
+  return gasPost<Category>("appendCategory", category);
 }
 
-export async function updateCategory(category: Category) {
-  await gasPost<Category>("updateCategory", category);
+export async function updateCategory(category: Category): Promise<Category> {
+  return gasPost<Category>("updateCategory", category);
 }
 
 export async function deleteCategory(id: string) {
