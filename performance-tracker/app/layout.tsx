@@ -1,7 +1,26 @@
 import type { Metadata } from "next";
+import { Noto_Sans_Thai } from "next/font/google";
 import "./globals.css";
 
-export const metadata: Metadata = { title: "ระบบจัดเก็บผลการปฏิบัติงาน", description: "Performance Tracker" };
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="th"><body>{children}</body></html>;
+const notoSansThai = Noto_Sans_Thai({
+  subsets: ["thai", "latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+export const metadata: Metadata = { 
+  title: "Performance Tracker", 
+  description: "Performance Tracker" 
+};
+
+export default function RootLayout({ 
+  children,
+}: Readonly<{ 
+  children: React.ReactNode; 
+}>) {
+  return (
+    <html lang="th">
+      <body className={notoSansThai.className}>{children}</body>
+    </html>
+    );
 }
